@@ -19,6 +19,10 @@
 #include <linux/mutex.h>
 #include <linux/zsmalloc.h>
 
+/*
+ * Some arbitrary value. This is just to catch
+ * invalid value for num_devices module parameter.
+ */
 static const unsigned max_num_devices = 32;
 
 /*-- Configurable parameters */
@@ -46,6 +50,7 @@ static const size_t max_zpage_size = PAGE_SIZE / 4 * 3;
 #define ZRAM_SECTOR_PER_LOGICAL_BLOCK	\
 	(1 << (ZRAM_LOGICAL_BLOCK_SHIFT - SECTOR_SHIFT))
 
+/* Flags for zram pages (table[page_no].flags) */
 enum zram_pageflags {
 	/* Page consists entirely of zeros */
 	ZRAM_ZERO,
@@ -53,7 +58,9 @@ enum zram_pageflags {
 	__NR_ZRAM_PAGEFLAGS,
 };
 
+/*-- Data structures */
 
+/* Allocated for each disk page */
 struct table {
 	unsigned long handle;
 	u16 size;	/* object size (excluding header) */
@@ -89,7 +96,7 @@ struct zram {
 	struct request_queue *queue;
 	struct gendisk *disk;
 	int init_done;
-	
+	/* Prevent concurrent execution of device init, reset and R/W request */
 	struct rw_semaphore init_lock;
 	/*
 	 * This is the limit on amount of *uncompressed* worth of data
