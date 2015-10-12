@@ -256,16 +256,6 @@ config CPU_FREQ_DEFAULT_GOV_INTELLIMM
         help
           Use the CPUFreq governor 'intelliminmax' as default. This is
           governor will use only 3 different frequencies, idle, UI and max
-
-config CPU_FREQ_DEFAULT_GOV_HELLSACTIVE
-	bool "hellsactive"
-	select CPU_FREQ_GOV_HELLSACTIVE
-	help
-	  Use the CPUFreq governor 'hellsactive' as default. This allows
-	  you to get a full dynamic cpu frequency capable system by simply
-	  loading your cpufreq low-level hardware driver, using the
-	  'interactive' governor for latency-sensitive workloads.
-
 endchoice
 
 config CPU_FREQ_GOV_LIONHEART
