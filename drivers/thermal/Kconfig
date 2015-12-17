@@ -75,7 +75,15 @@ config THERMAL_PM8XXX
 
 choice
 	prompt "MSM Thermal Monitor Types"
-	default THERMAL_MONITOR
+	default INTELLI_THERMAL_V2
+
+config INTELLI_THERMAL
+	bool "Better thermal monitor for MSM"
+	depends on THERMAL_TSENS8960
+	depends on CPU_FREQ_MSM
+	help
+	  This enables thermal monitoring capability in the kernel replacing
+	  userspace thermal monitoring altogether.
 
 config INTELLI_THERMAL_V2
 	bool "Better thermal monitor for MSM"
@@ -94,6 +102,7 @@ config THERMAL_MONITOR
 	  absence of a system wide thermal monitoring entity or until such an
 	  entity starts running in the userspace. Monitors TSENS temperature
 	  and limits the max frequency of the cores.
+
 endchoice
 
 config SPEAR_THERMAL
