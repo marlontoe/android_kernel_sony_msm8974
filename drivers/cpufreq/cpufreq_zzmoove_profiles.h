@@ -44,7 +44,7 @@
  */
 
 // NOTE: profile values in this version are mainly for Snapdragon devices!
-static char profiles_file_version[20] = "develop";
+static char profiles_file_version[20] = "0.3 beta8 SNAP";
 #define PROFILE_TABLE_END ~1
 #define END_OF_PROFILES "end"
 #define PROFILE_MAX_FREQ (2457600)	// ZZ: max possible freq in system table for freq adaption (possible OC frequencies inclusive)
@@ -334,10 +334,10 @@ struct zzmoove_profile zzmoove_profiles[] = {
 #endif /* defined(CONFIG_HAS_EARLYSUSPEND)... */
 		0,		// scaling_block_cycles (0=disable, any value above 0)
 #ifdef CONFIG_EXYNOS4_EXPORT_TEMP
-		0,		// scaling_block_temp (0=disable, range from 30캜 to 80캜)
+		0,		// scaling_block_temp (0=disable, range from 30째C to 80째C)
 #endif /* CONFIG_EXYNOS4_EXPORT_TEMP */
 #ifdef ENABLE_SNAP_THERMAL_SUPPORT
-		0,		// scaling_trip_temp (0=disable, range from 40캜 to 69캜)
+		0,		// scaling_trip_temp (0=disable, range from 40째C to 69째C)
 #endif /* ENABLE_SNAP_THERMAL_SUPPORT */
 		1728000,	// scaling_block_freq (all valid system frequencies)
 		10,		// scaling_block_threshold (0=disable, range from 1 to 100)

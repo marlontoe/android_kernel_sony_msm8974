@@ -177,7 +177,7 @@ static char custom_profile[20] = "custom";			// ZZ: name to show in sysfs if any
 #define DEF_SCALING_UP_BLOCK_FREQ			(0)	// ff: default scaling-up block frequency threshold
 #ifdef CONFIG_EXYNOS4_EXPORT_TEMP
 #define DEF_TMU_READ_DELAY				(1000)	// ZZ: delay for cpu temperature reading in ms (tmu driver polling intervall is 10 sec)
-#define DEF_SCALING_BLOCK_TEMP				(0)	// ZZ: default cpu temperature threshold in 캜
+#define DEF_SCALING_BLOCK_TEMP				(0)	// ZZ: default cpu temperature threshold in 째C
 #endif /* CONFIG_EXYNOS4_EXPORT_TEMP */
 #ifdef ENABLE_SNAP_THERMAL_SUPPORT				// ff: snapdragon temperature tripping defaults
 #define DEF_SCALING_TRIP_TEMP				(60)	// ff: default trip cpu temp
@@ -4662,7 +4662,7 @@ static ssize_t store_scaling_up_block_freq(struct kobject *a, struct attribute *
 }
 
 #ifdef CONFIG_EXYNOS4_EXPORT_TEMP
-// ZZ: tuneable scaling block temp -> possible values: 0 to disable, values from 30캜 to 80캜, if not set default is 0
+// ZZ: tuneable scaling block temp -> possible values: 0 to disable, values from 30째C to 80째C, if not set default is 0
 static ssize_t store_scaling_block_temp(struct kobject *a, struct attribute *b, const char *buf, size_t count)
 {
 	unsigned int input;
@@ -4689,7 +4689,7 @@ static ssize_t store_scaling_block_temp(struct kobject *a, struct attribute *b, 
 }
 #endif /* CONFIG_EXYNOS4_EXPORT_TEMP */
 
-// ff: added tuneable scaling_trip_temp -> possible values: 0 to disable, range from 40캜 to 69캜 if not set default is 0
+// ff: added tuneable scaling_trip_temp -> possible values: 0 to disable, range from 40째C to 69째C if not set default is 0
 #ifdef ENABLE_SNAP_THERMAL_SUPPORT
 static ssize_t store_scaling_trip_temp(struct kobject *a, struct attribute *b,
 													const char *buf, size_t count)
