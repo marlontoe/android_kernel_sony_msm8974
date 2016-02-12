@@ -412,13 +412,13 @@ static int mmc_read_ext_csd(struct mmc_card *card, u8 *ext_csd)
 		ext_csd[EXT_CSD_SEC_FEATURE_SUPPORT];
 	card->ext_csd.raw_trim_mult =
 		ext_csd[EXT_CSD_TRIM_MULT];
+	card->ext_csd.raw_partition_support = ext_csd[EXT_CSD_PARTITION_SUPPORT];
 	if (card->ext_csd.rev >= 4) {
 		/*
 		 * Enhanced area feature support -- check whether the eMMC
 		 * card has the Enhanced area enabled.  If so, export enhanced
 		 * area offset and size to user by adding sysfs interface.
 		 */
-		card->ext_csd.raw_partition_support = ext_csd[EXT_CSD_PARTITION_SUPPORT];
 		if ((ext_csd[EXT_CSD_PARTITION_SUPPORT] & 0x2) &&
 		    (ext_csd[EXT_CSD_PARTITION_ATTRIBUTE] & 0x1)) {
 			hc_erase_grp_sz =
@@ -1463,6 +1463,14 @@ static int mmc_init_card(struct mmc_host *host, u32 ocr,
 			host->caps2 &= ~MMC_CAP2_STOP_REQUEST;
 		}
 #endif
+
+#ifdef CONFIG_MMC_ENABLE_CACHECTRL_SKHYNIX
+		if (card->cid.manfid == CID_MANFID_HYNIX &&
+			!strncmp(card->cid.prod_name, prod_name_hynix_HBG4e_05,
+					 sizeof(prod_name_hynix_HBG4e_05))) {
+			host->caps2 |= MMC_CAP2_CACHE_CTRL;
+		}
+#endif
 	}
 
 	/*
@@ -1954,6 +1962,8 @@ out:
 	if (mmc_card_is_sleep(host->card)) {
 		mmc_restore_ios(host);
 		err = mmc_card_awake(host);
+		if (!err)
+			err = mmc_cache_ctrl(host, 1);
 	} else
 		err = mmc_init_card(host, host->ocr, host->card);
 #endif
